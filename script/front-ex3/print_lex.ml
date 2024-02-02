@@ -58,4 +58,4 @@ let main () =
 
         
 let () = try main () with
-  Parsing.Parse_error -> print_string "syntax error\n"
+  Parsing.Parse_error -> print_string "Parsing is finished unsuccessfully\n"

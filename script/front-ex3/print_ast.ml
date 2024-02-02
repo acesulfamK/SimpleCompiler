@@ -36,15 +36,32 @@ and ast_typ ast = match ast with
       | ArrayTyp (size,t) -> sprintf "ArrayTyp (%d,%s)" size (ast_typ t)
       | IntTyp -> "IntTyp"
       | VoidTyp -> "VoidTyp"
+      
 
-let main () =
-  (* The open of a file *)
-  let cin = if Array.length Sys.argv > 1 then open_in Sys.argv.(1)
-            else stdin in
-                let lexbuf = Lexing.from_channel cin in
-  (* The start of the entire program *)
-                   print_string (ast_stmt (Parser.prog Lexer.lexer lexbuf)); 
-                   print_string "\n"
+      let main () =
+        (* The open of a file *)
+        let cin = if Array.length Sys.argv > 1 then open_in Sys.argv.(1)
+             else stdin in
+             let lexbuf = Lexing.from_channel cin in
+             let substring_before_space s =
+               try
+                 let index = String.index s ' ' in
+                 String.sub s 0 index
+               with Not_found -> s
+             in
+             try
+                print_string (ast_stmt (Parser.prog Lexer.lexer lexbuf)); 
+                print_string "\n"
+             with
+             Parsing.Parse_error -> 
+                     let {Lexing.pos_fname=sf; pos_lnum=sl; pos_bol=sb; pos_cnum=sc} =
+                          Lexing.lexeme_start_p lexbuf in
+                     Printf.eprintf "%s:line %d:pos %d: error: %s\n" 
+                        sf sl (sc-sb) (substring_before_space (Lexing.lexeme lexbuf))
+             |Lexer.No_such_symbol -> 
+                     let {Lexing.pos_fname=sf; pos_lnum=sl; pos_bol=sb; pos_cnum=sc} =
+                          Lexing.lexeme_start_p lexbuf in
+                     Printf.eprintf "%s:line %d:pos %d: error: %s\n" 
+                        sf sl (sc-sb) (substring_before_space (Lexing.lexeme lexbuf))
 
-let _ = try main () with 
-         Parsing.Parse_error -> print_string "syntax error\n"
+let _ = main ()

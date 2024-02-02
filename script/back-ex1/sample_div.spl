@@ -1,0 +1,12 @@
+{
+        int a,b;
+    
+        sprint ("You must give 2 integers.\n");
+        sprint ("First integer: ");
+        scan (a);
+        sprint("Second integer: ");
+        scan (b);
+        sprint ("Answer = ");
+        iprint (a / b);
+        sprint ("\n");
+}
