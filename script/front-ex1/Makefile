@@ -12,6 +12,12 @@ print_ast: $(FILE) print_ast.ml
 
 print_lex: lexer.cmo parser.cmo print_lex.ml
 	ocamlc -o print_lex lexer.cmo parser.cmo print_lex.ml
+<<<<<<< HEAD
+=======
+
+clean:
+	rm  -f *.cmi *.cmo parser.ml lexer.ml parser.mli print_ast
+>>>>>>> 8d2787e7d6438cf8feaeeb3ef6b849e3fb65f8fd
 
 clean:
 	rm  -f *.cmi *.cmo parser.ml lexer.ml parser.mli print_ast

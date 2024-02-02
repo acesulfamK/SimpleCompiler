@@ -58,6 +58,7 @@ errorを起こしたsymbolの取得
 - 行情報であるpos_lnumを得るためには、lexer.mllでLexing.new_line lexbuf が必要
 
 
+<<<<<<< HEAD
 ## front-ex3
 
 lexerの時点で、各トークンにsymbolと行番号を付加して記録する。
@@ -94,3 +95,6 @@ raxの符号拡張におけるエラーについて
 move $0 rdxを行うとこのエラーは解消された。詳しい原因はわからない。
 
  
+=======
+## front-ex3
+>>>>>>> 8d2787e7d6438cf8feaeeb3ef6b849e3fb65f8fd
