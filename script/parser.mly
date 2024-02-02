@@ -2,7 +2,12 @@
 
 open Printf
 open Ast
-
+let parse_error str = 
+     let {Lexing.pos_fname=sf; pos_lnum=sl; pos_bol=sb; pos_cnum=sc} =
+               Parsing.symbol_start_pos() in
+               Printf.eprintf "%s:line %d:pos %d:error \n" 
+                    sf sl (sc-sb) 
+          
 %}
 
 /* File parser.mly */
@@ -60,9 +65,11 @@ stmts: stmts stmt  { $1@[$2] }
 stmt : ID ASSIGN expr SEMI    { Assign (Var $1, $3) }
      | ID LS expr RS ASSIGN expr SEMI  { Assign (IndexedVar (Var $1, $3), $6) }
      | IF LP cond RP stmt     { If ($3, $5, None) }
+     | IF error stmt          { If (IntExp(0), $3, None)}  
      | IF LP cond RP stmt ELSE stmt 
                               { If ($3, $5, Some $7) }
      | WHILE LP cond RP stmt  { While ($3, $5) }
+     | WHILE error stmt       { While (IntExp(0), $3) }
      | SPRINT LP STR RP SEMI  { CallProc ("sprint", [StrExp $3]) }
      | IPRINT LP expr RP SEMI { CallProc ("iprint", [$3]) }
      | SCAN LP ID RP SEMI  { CallProc ("scan", [VarExp (Var $3)]) }

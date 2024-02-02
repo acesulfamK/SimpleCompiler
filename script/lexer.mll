@@ -2,6 +2,7 @@
 {
  open Parser  
  exception No_such_symbol
+ let new_line lexbuf = Lexing.new_line lexbuf
 }
 
 let digit = ['0'-'9']
@@ -40,7 +41,8 @@ rule lexer = parse
 | ')'                     { RP  }
 | ','                     { COMMA }
 | ';'                     { SEMI }
-| "//".*'\n'
-| [' ' '\t' '\n']         { lexer lexbuf }(* eat up whitespace *) 
+| "//"[^ '\n']*'\n'       { new_line lexbuf; lexer lexbuf }
+| '\n'                    { new_line lexbuf; lexer lexbuf }(* eat up whitespace *) 
+| [' ' '\t']              { lexbuf; lexer lexbuf }(* eat up whitespace *) 
 | eof                     { raise End_of_file }
 | _                       { raise No_such_symbol }

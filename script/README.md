@@ -7,6 +7,10 @@ lexerのdebugはutop上で、
 let lexbuf = Lexing.from_string "int a,b,c;"
 lexer lexbuf
 ```
+# Next Task
+
+front ex3において、エラーを戻すのなら、print_ast.ml のtry withが働かなくなってしまう。
+- 変更: parser.mlyでposition取得 -> 直接ファイルからtokenを取ってくる
 
 # 課題
 
@@ -52,3 +56,6 @@ errorを起こしたsymbolの取得
 - print_ast.ml 内で Lexing.lexeme を用いてエラー情報を得ている
 - エラーはパーサにおけるParsing.errorとレキサにおけるLexer.No_such_symbolに対応している。処理は同じ
 - 行情報であるpos_lnumを得るためには、lexer.mllでLexing.new_line lexbuf が必要
+
+
+## front-ex3
